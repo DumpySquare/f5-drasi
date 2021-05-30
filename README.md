@@ -1,23 +1,57 @@
-# Solutions Engineering Template Repository
-A template repository that contains all required files (LICENSE, SUPPORT, CONTRIBUTING, etc) as outlined in the org standards.  
+# f5-drasi
 
+actions (english) => drasi (greek)
 
-The sections below are recommended in your project's README.md file. 
+## idea
 
-## Overview
-Provide a short overview of the project.
+Since 2019 github actions have become super powerful with options like simple bash scripting, nodejs apps, and even full blown docker containers.
 
-## Getting Started
-Provide a quick example of how to use your code.  This should provide the user with a launch point to quickly see what the project can offer them. 
+Some of these docker containers can get pretty beefy some full CI/CD solutions include full application testing and deployment.
+
+Infrastucture as Code (IaC) is a very common goal for F5 customers as we continue to automate and accelerate deployments.
+
+Several have started some simple solutions to integrate SCM directly with managing f5 configurations.  Some of those solutions have worked very well for some.
+
+It's time to create a solution to push the idea to the next level
+
+## architecture
+
+At it's core, this will be a nodejs application that integrats with github actions.  The action can execute on push/pull-request/merge as needed;
+
+### phase 1 - applications
+
+Phase 1 will include the action to watch a "tenants" folder.  Each file in the folder will be a tenant.  When a tenant has been modified, the action will execute the appropriate AS3 call to the defined F5 device.
+
+This can currently be achieved with f5-conx-core.
+
+### phase 2 - system settings
+
+Phase 2 will include managing system settings (vlans/ips/dns/ntp/snmp/...)
+
+- First thought is to use DO, but DO doesn't handle day 1+ operations, like at all...
+- the next thought was to use something like ansible so things can be managed imperatively
+- All this information could be based off a DO declaration;
+  -  Use DO for day 0 deployment
+  -  then use DO declaration, parsed for specific details to run an ansible playbook to update any changes
+
+### phase 3 - device deployment
+
+For now, we will just be focused on F5 VE (cloud/gcp/azure/aws/vmware)
+
+The idea is that new repo could be copied (or created from template) that would include all the necessary details to deploy an f5 ve (or pair), onboard device settins, and deploy applications
+
+Any future changes would be hanlded by previous phase funcationality
 
 ## Installation
 Outline the requirements and steps to install this project. 
 
 ## Usage
-Outline how the user can use your project and the various features the project offers. 
+
+import github action, setup actions files and secrets, deploy!
 
 ## Development
-Outline any requirements to setup a development environment if someone would like to contribute.  You may also link to another file for this information. 
+
+Figuring this out.  Seems the best way is to use a project called ACT to locally test github actions
 
 ## Support
 For support, please open a GitHub issue.  Note, the code in this repository is community supported and is not supported by F5 Networks.  For a complete list of supported projects please reference [SUPPORT.md](SUPPORT.md).
